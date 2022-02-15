@@ -1,25 +1,25 @@
 ---
 title: "Boletín Tema 1"
 subtitle: Tratamiento de Datos. Grado en Ciencia de Datos- UV
-author: "Marcelino Martínez"
+author: "Rita Clemente Pascual"
 date:  "`r Sys.Date()`"  #Pondría la fecha del día actual
 params:
   lang: ES
 lang: "`r switch(params$lang, ES = 'es-ES', EN = 'en-US')`"
 output:
-  pdf_document:
-    toc: no
-    toc_depth: 3
-    number_sections: yes
-  html_notebook:
-    echo: yes
-    number_sections: yes
-    toc: yes
   html_document:
     echo: yes
     number_sections: yes
     theme: lumen
     toc: yes
+  html_notebook:
+    echo: yes
+    number_sections: yes
+    toc: yes
+  pdf_document:
+    toc: no
+    toc_depth: 3
+    number_sections: yes
 language:
   label:
     fig: 'Figura '
@@ -92,69 +92,77 @@ b.  Usa las funciones **dim, head, tail, str** para una primera visión de los c
 c.  Muestra los nombres de las filas y las columnas (**rownames**, **colnames**)
 
 ```{r}
+# Cargamos las dos librerias necesarias antes de todo:
+library(MASS)
+library(robustbase)
 
+# Una vez tenemos las dos librerías pasamos a cada conjunto de datos.
 
+# Primero miramos el conjunto de datos mammals del paquete MASS
+# a) Miramos las características. 
+df_mammals <- mammals
+summarise(df_mammals)
+# b) Usamos las funciones siguientes para una primera visión de los conjuntos de 
+# datos.
+dim(df_mammals)
+head(df_mammals)
+head(df_mammals, n=3)
+tail(df_mammals)
+str(df_mammals)
+# c1) Mostramos los nombres de las filas.
+rownames(df_mammals)
+# c2) Mostramos los nombres de las columnas.
+colnames(df_mammals)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Segundo miramos el conjunto de datos Animals2 del paquete robustbase
+# a) Miramos las características. 
+df_animals <- Animals2
+summarise(df_animals)
+# b) Usamos las funciones siguientes para una primera visión de los conjuntos de 
+# datos.
+dim(df_animals)
+head(df_animals)
+head(df_animals, n=3)
+tail(df_animals)
+str(df_animals)
+# c1) Mostramos los nombres de las filas.
+rownames(df_animals)
+# c2) Mostramos los nombres de las columnas.
+colnames(df_animals)
 ```
 
 d.  Usa la función **intersect** y almacena en la variable *commonAnimals* los aminales que aparezcan en ambos conjuntos
 
 ```{r}
-
-
-
-
-
-
+commonAnimals <- intersect(df_mammals, df_animals)
+rownames(commonAnimals)
 ```
 
 e.  Usa **setdiff** para averiguar qué animales no están en ambos conjuntos. ¿Cuántos son ?. ¿Qué tipo de animales son?
 
 ```{r}
-
-
-
-
-
-
+# Tenemos los animales que no estan en mammals
+diferentes_mammals <- setdiff(rownames(df_mammals), rownames(df_animals))
+diferentes_mammals
+# Tenemos los animales que no estan en animals
+diferentes_animals <- setdiff(rownames(df_animals), rownames(df_mammals))
+diferentes_animals
 ```
 
 e.  Determina las diferencia entre los animales que no aparecen en ambos conjuntos.
 
 ```{r}
-
-
-
-
-
-
-
-
-
-
-
-
+diferentes_m <- setdiff(rownames(df_mammals), rownames(df_animals))
+diferentes_m
 ```
 
 2.  La funcion **qqPlot** del paquete **car** puede ser utilizada para determinar gráficamente si una serie de puntos siguen una distribución de datos Gaussiana. Si las muestras están dentro de las líneas discontinuas podemos indicar que siguen una distribución Gaussiana con un 95 % de confianza. Utilizando esta función representa el logaritmo neperiano (**log**) del peso del cerebro (**brain weigths**) del registro de datos **mammals** del paquete **MASS** y conjunto de datos **Animals2** de la librería **robustbase**. ¿Presentan el mismo comportamiento ?.¿Podríamos decir que siguen una distribución Gaussiana ?
 
 ```{r}
-
-
+# Primero hacemos la función del qqPlot de los mammals
+qqPlot(log(mammals$brain))
+# Segundo hacemos la función del qqPlot de los animals
+qqPlot(log(Animals2$brain))
 ```
 
 3.  La función **library** sin argumentos abre una ventana y muestra las librerías que han sido instaladas.
@@ -163,18 +171,18 @@ e.  Determina las diferencia entre los animales que no aparecen en ambos conjunt
     b.  Uno de los elementos de la lista es un matriz de caracteres. Muestra por pantalla los 5 primeros elementos de esta matriz usando la función **head**.
     c.  Determina el número de librerías que tienes instaladas.
 
-    ```{r}
-
-
-
-
-
-
-
-
-
-
-    ```
+```{r}
+# a) Asignamos el valor devuelto por la funcion library.
+libReturn <- library()
+libReturn
+# b) Mostramos por pantalla los 5 primeros elementos de la matriz
+head(libReturn$results, n=5)
+# también podemos observar los 5 primeros elementos de la matriz con la siguiente
+# función:
+libReturn[[2]] [1:5]
+# c) Determinamos el número de librerias que tenemos instaladas
+length(libReturn)
+```
 
 4.  En las transparencias del tema 1 se citan los primeros pasos a seguir cuando se analiza un nuevo conjunto de datos.
 
@@ -184,51 +192,54 @@ e.  Determina las diferencia entre los animales que no aparecen en ambos conjunt
     d.  Utiliza la función **summary**, sobre **cabbages** y **Chile** y observa como, además de otros estadísticos, también devuelve el número de valores perdidos de cada variable.
 
 ```{r}
+## 1º cabbages del paquete MASS
+# a) Determinamos las tres etapas para el conjunto de datos cabbages.
+head(cabbages)
+dim(cabbages)
+tail(cabbages)
+glimpse(cabbages)
+str(cabbages)
+# b) Determinamos el número de valores perdidos para cada una de las variables
+# del conjunto cabbages.
+any(is.na(cabbages))
+colSums(sapply(cabbages, is.na))
 
+## 2º Chile del paquete car
+# a) Determinamos las tres etapas para el conjunto de datos Chile.
+head(Chile)
+dim(Chile)
+tail(Chile)
+glimpse(Chile)
+str(Chile)
+any(is.na(Chile))
+colSums(sapply(Chile, is.na))
+# b) Determinamos el número de valores perdidos para cada una de las variables
+# del conjunto Chile.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# d) Utilizamos la función summary para que nos saque los estadísticos y el número
+# de valores perdidos de cada variable.
+summary(cabbages)
+summary(Chile)
 ```
 
 5.  Muchas pruebas estadísticas suponen que los datos siguen una distribución Gaussiana. Utiliza la aproximación visual proporcionada por **qqPlot** para determinar si podemos asumir que las variables **HeadWt** y **VitC** del conjunto **cabbages** verifican esta condición.
 
 ```{r}
-
-
-
-
-
+# Con estas dos funciones vamos a ver a traves de la aproximación visual, si nuestras
+# variables HeadWt y VitC del conjunto cabbages verifican que siguen una distribución
+# Gaussiana.
+plot_hw <- qqPlot(cabbages$HeadWt)
+plot_hw
+plot_vc <- qqPlot(cabbages$VitC)
+plot_vc
 ```
 
 6.  Una representación habitual, para determinar la distribución de los datos de una variable cuantitativa es el histograma (**hist**). Determina, de forma aproximada, utilizando el histograma, si hay diferencias entre los contenidos de vitamina C (**VitC**), para las diferentes variedades de calabaza (variable **Cult**), en el conjunto de datos **cabbages**.
 
 ```{r}
-
-
-
+# Utilizamos un histograma para determinar los datos de nuestras variables cuantitativas.
+repre <- ggplot(cabbages, aes(VitC,fill = Cult)) + geom_histogram(alpha=0.5)
+repre
 ```
 
 7.  Un modelo sencillo para relacionar variables es la *predicción lineal*. En el siguiente ejemplo se utiliza el conjunto de datos **whiteside**, de la librería **MASS**. Esta aproximación propone un modelo que predice una variable a partir de otra. Una primera etapa para plantear esta aproximación sería representar ambas variables mediante un diagrama de dispersión (Gráfico XY) y determinar si la relación entre variables "parece" lineal. Si es así, podemos plantear un modelo lineal (en este caso según un factor), donde se aprecia claramente que existe una relación lineal entre las dos variables consideradas. Observa y ejecuta el siguiente código.
@@ -266,28 +277,34 @@ a.  Utiliza un procedimiento análogo para determinar si se aprecia una relació
 b.  Repite el apartado anterior, pero obteniendo un modelo para cada una de las dos variedades de calabaza, **Cult**. Ver[Parámetros básicos plot](https://www.statmethods.net/advgraphs/parameters.html).
 
 ```{r}
+# a) Para ver lo que nos piden vamos a hacer un diagrama de dispersión global.
+plot(cabbages$HeadWt, cabbages$VitC)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# b) Ahora vamos a hacer un diagrama de dispersión, pero este lo vamos a etiquetar 
+# según un factor concreto.
+plot(cabbages$HeadWt, cabbages$VitC, pch=c(6,16)[cabbages$HeadWt])
+# Planteamos 2 modelos lineales, cada uno para los datos de un factor.
+Model1 <- lm(VitC ~ HeadWt, data = cabbages, subset = which(Cult == 'c39'))
+Model2 <- lm(VitC ~ HeadWt, data = cabbages, subset = which(Cult == 'c52'))
+# Ahora vamos a representar las rectas correspondientes a cada modelo lineal.
+abline(Model1, lty=2)
+abline(Model2)
 
 ```
 
 c.  Usa **summary** con cada uno de los modelos obtenidos y observa **Coefficients**. Dado que hemos planteado un modelo $y=mx+n$, donde $y=VitC$ y $x=HeadWt$. La función **lm** nos permite obtener **(Intercept)**; **n** y la pendiente **HeadWt**; **m** (además de otros parámetros adicionales que evalúan la caracterísiticas del modelo). Observa que en todos los casos, la pendiene es negativa indicando que las calabazas de más peso contienen menos vitamina C. No te preocupes por el resto de parámetros del modelo, por el momento.
 
 ```{r}
+# Vamos a observar los coeficientes del modelo 1:
+summary(Model1$coefficients)
+# Vamos a observar los coeficientes del modelo 2:
+summary(Model2$coefficients)
 
+# Observamos la pendiente del modelo 1:
+lm(Model1)
+# Obtenemos que es negativa
 
-
+# Observamos la pendiente del modelo 2:
+lm(Model2)
+# Obtenemos que es negativa
 ```
