@@ -191,7 +191,17 @@ length(libReturn)
     d.  Utiliza la función **summary**, sobre **cabbages** y **Chile** y observa como, además de otros estadísticos, también devuelve el número de valores perdidos de cada variable.
 
 ```{r}
-
+## 1º cabbages del paquete MASS
+# a) Determinamos las tres etapas para el conjunto de datos cabbages.
+head(cabbages)
+dim(cabbages)
+tail(cabbages)
+glimpse(cabbages)
+str(cabbages)
+# b) Determinamos el número de valores perdidos para cada una de las variables
+# del conjunto cabbages.
+any(is.na(cabbages))
+colSums(sapply(cabbages, is.na))
 ```
 
 5.  Muchas pruebas estadísticas suponen que los datos siguen una distribución Gaussiana. Utiliza la aproximación visual proporcionada por **qqPlot** para determinar si podemos asumir que las variables **HeadWt** y **VitC** del conjunto **cabbages** verifican esta condición.
