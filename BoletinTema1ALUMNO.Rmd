@@ -214,6 +214,11 @@ any(is.na(Chile))
 colSums(sapply(Chile, is.na))
 # b) Determinamos el número de valores perdidos para cada una de las variables
 # del conjunto Chile.
+
+# d) Utilizamos la función summary para que nos saque los estadísticos y el número
+# de valores perdidos de cada variable.
+summary(cabbages)
+summary(Chile)
 ```
 
 5.  Muchas pruebas estadísticas suponen que los datos siguen una distribución Gaussiana. Utiliza la aproximación visual proporcionada por **qqPlot** para determinar si podemos asumir que las variables **HeadWt** y **VitC** del conjunto **cabbages** verifican esta condición.
