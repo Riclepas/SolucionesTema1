@@ -141,7 +141,12 @@ rownames(commonAnimals)
 e.  Usa **setdiff** para averiguar qué animales no están en ambos conjuntos. ¿Cuántos son ?. ¿Qué tipo de animales son?
 
 ```{r}
-
+# Tenemos los animales que no estan en mammals
+diferentes_mammals <- setdiff(rownames(df_mammals), rownames(df_animals))
+diferentes_mammals
+# Tenemos los animales que no estan en animals
+diferentes_animals <- setdiff(rownames(df_animals), rownames(df_mammals))
+diferentes_animals
 ```
 
 e.  Determina las diferencia entre los animales que no aparecen en ambos conjuntos.
