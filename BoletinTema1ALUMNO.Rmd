@@ -171,7 +171,16 @@ qqPlot(log(Animals2$brain))
     c.  Determina el número de librerías que tienes instaladas.
 
 ```{r}
-
+# a) Asignamos el valor devuelto por la funcion library.
+libReturn <- library()
+libReturn
+# b) Mostramos por pantalla los 5 primeros elementos de la matriz
+head(libReturn$results, n=5)
+# también podemos observar los 5 primeros elementos de la matriz con la siguiente
+# función:
+libReturn[[2]] [1:5]
+# c) Determinamos el número de librerias que tenemos instaladas
+length(libReturn)
 ```
 
 4.  En las transparencias del tema 1 se citan los primeros pasos a seguir cuando se analiza un nuevo conjunto de datos.
